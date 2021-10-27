@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="name" default="cube"/>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="model" default="$(find metr4202_description)/models/cube/cube.xacro"/>
+  <param name="$(arg name)_description" command="xacro '$(arg model)'" />
+  <node name="$(arg name)_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param $(arg name)_description -model $(arg name) -x $(arg x) -y $(arg y) -z 0.25" />
+</launch>

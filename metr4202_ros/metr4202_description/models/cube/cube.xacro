@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="cube">
+
+<xacro:property name="s" value="0.032"/>
+<xacro:property name="rho" value="1.0"/>
+<xacro:property name="m" value="${rho * s * s * s}"/>
+<xacro:property name="I" value="${m * s * s / 6}"/>
+
+<link name="cube_link">
+
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${m}"/>
+        <inertia ixx="${I}"  ixy="0"  ixz="0" iyy="${I}" iyz="0" izz="${I}" />
+    </inertial>
+
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <box size="${s} ${s} ${s}" />
+        </geometry>
+        <material name="red">
+            <color rgba="1.0 0.0 0.0 1.0"/>
+        </material>
+    </visual>
+
+    <collision>
+        <geometry>
+            <box size="${s} ${s} ${s}" />
+        </geometry>
+    </collision>
+
+</link>
+
+</robot>

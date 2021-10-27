@@ -1,0 +1,7 @@
+table:
+
+  joint1_velocity_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: joint1
+    pid: {p: 7.5, i: 0.0, d: 2.5}
+

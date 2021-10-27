@@ -1,0 +1,28 @@
+<launch>
+    <!--node name="gazebo" pkg="gazebo_ros" type="gazebo"/-->
+    <node name="cube_manager" pkg="metr4202_demo" type="cube_manager_node.py"/>
+    <include file="$(find metr4202_gazebo)/launch/table_gazebo.launch"/>
+    <include file="$(find metr4202_control)/launch/table_control.launch"/>
+    <node name="metr4202_demo_node" pkg="metr4202_demo" type="metr4202_demo"/>
+
+    <include file="$(find metr4202_gazebo)/launch/cube_gazebo.launch">
+        <arg name="name" value="cube_red"/>
+        <arg name="x" value="0.05"/>
+        <arg name="y" value="0.05"/>
+    </include>
+    <include file="$(find metr4202_gazebo)/launch/cube_gazebo.launch">
+        <arg name="name" value="cube_green"/>
+        <arg name="x" value="-0.05"/>
+        <arg name="y" value="0.05"/>
+    </include>
+    <include file="$(find metr4202_gazebo)/launch/cube_gazebo.launch">
+        <arg name="name" value="cube_blue"/>
+        <arg name="x" value="0.05"/>
+        <arg name="y" value="-0.05"/>
+    </include>
+    <include file="$(find metr4202_gazebo)/launch/cube_gazebo.launch">
+        <arg name="name" value="cube_yellow"/>
+        <arg name="x" value="-0.05"/>
+        <arg name="y" value="-0.05"/>
+    </include>
+</launch>

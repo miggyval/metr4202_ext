@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="table">
+
+<xacro:property name="rho" value="10.0"/>
+<xacro:property name="r" value="0.12"/>
+<xacro:property name="h" value="0.01"/>
+<xacro:property name="m" value="${rho * pi * r * r * h}"/>
+<xacro:property name="I1" value="${m * r * r / 4 + m * h * h / 12}"/>
+<xacro:property name="I2" value="${m * r * r / 2}"/>
+
+<gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/table</robotNamespace>
+    </plugin>
+</gazebo>
+
+
+<link name="world"/>
+
+<link name="motor_link">
+    <visual>
+        <geometry>
+            <cylinder radius="0.05" length="0.02"/>
+        </geometry>
+    </visual>
+
+    <collision>        
+        <geometry>
+            <cylinder radius="0.05" length="0.02"/>
+        </geometry>
+    </collision>
+
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1"/>
+        <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+</link>
+
+<link name="table_link">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1"/>
+        <inertia ixx="${I1}"  ixy="0"  ixz="0" iyy="${I1}" iyz="0" izz="${I2}" />
+    </inertial>
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <cylinder radius="${r}" length="${h}"/>
+        </geometry>
+        <material name="blue">
+            <color rgba="0.0 0.0 1.0 1.0"/>
+        </material>
+    </visual>
+    <collision>        
+        <geometry>
+            <cylinder radius="${r}" length="${h}"/>
+        </geometry>
+    </collision>
+</link>
+
+<joint name="joint1" type="continuous">
+    <parent link="motor_link"/>
+    <child link="table_link"/>
+    <axis xyz="0 0 1" />
+    <origin xyz="0 0 0.02" rpy="0 0 0" />
+</joint>
+
+<joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="motor_link"/>
+</joint>
+
+<transmission name="tran1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint1">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>  
+    </joint>
+    <actuator name="motor1">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+</transmission>
+
+</robot>

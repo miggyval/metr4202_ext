@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="model" default="$(find metr4202_description)/models/table/table.xacro"/>
+  <param name="robot_description" command="xacro '$(arg model)'" />
+  <node name="table_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model table -x 0 -y 0 -z 0.025" />
+</launch>
